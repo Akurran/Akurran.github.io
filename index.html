@@ -1,19 +1,344 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fun Quiz Site</title>
-    <link rel="stylesheet" href="Style.css">
+  <meta charset="UTF-8" />
+  <title>Akurran's Fun Quiz Site!</title>
+  <style>
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+    }
+
+    header {
+      background: purple;
+      color: white;
+      text-align: center;
+      padding: 30px;
+    }
+
+    .page-body {
+      display: grid;
+      grid-template-columns: 120px 1fr 160px 120px;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      background: steelblue;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .sidebar p {
+      color: white;
+      writing-mode: vertical-rl;
+      font-size: 1.1rem;
+      letter-spacing: 3px;
+    }
+
+    .quiz-list {
+      background: #f0f4ff;
+    }
+
+    .quiz-title {
+      background: lightblue;
+      padding: 60px 30px;
+      border-bottom: 1px solid #aac;
+    }
+
+    .quiz-blurb {
+      background: lightgray;
+      padding: 100px 30px;
+      border-bottom: 2px solid #999;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .start-btn {
+      background: purple;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .start-btn:hover {
+      background: mediumpurple;
+    }
+
+    .image-column {
+      background: darkred;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .image-slot {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      text-align: center;
+      padding: 10px;
+      font-size: 0.85rem;
+    }
+
+    .image-slot img {
+      width: 100%;
+      object-fit: cover;
+}
+
+    #quiz-page {
+      display: none;
+      padding: 40px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .answer-btn {
+      display: block;
+      width: 100%;
+      background: #eee;
+      border: 2px solid #ccc;
+      padding: 12px 16px;
+      margin: 8px 0;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .answer-btn:hover { background: #ddd; }
+
+    .correct { background: #c4f4c0; border-color: green; }
+    .wrong   { background: #f9c6c6; border-color: red; }
+
+    #next-btn {
+      display: none;
+      margin-top: 16px;
+      background: purple;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    #back-btn {
+      background: steelblue;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      font-size: 0.95rem;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-bottom: 24px;
+    }
+
+  </style>
 </head>
 <body>
-     <header>
-    <h1>🎉 Welcome to Akurran's Fun Quiz Site!</h1>
-    <p>Test your knowledge!</p>
-  </header>
-    
-    <div class="sidebar">
-      <p>Sidebar</p>
+
+  <div id="home-page">
+
+    <header>
+      <h1>Welcome to Akurran's Fun Quiz Site!</h1>
+      <p>Pick a quiz below to get started</p>
+    </header>
+
+    <div class="page-body">
+
+      <div class="sidebar">
+        <p>Fun Quiz Site</p>
+      </div>
+
+      <div class="quiz-list">
+
+        <div class="quiz-title">
+          <h2>Quiz 1 - Animals</h2>
+        </div>
+        <div class="quiz-blurb">
+          <p>How well do you know animals and whatever they've got going on?</p>
+          <button class="start-btn" onclick="startQuiz('Animals')">Start Quiz</button>
+        </div>
+
+        <div class="quiz-title">
+          <h2>Quiz 2 - Video Games</h2>
+        </div>
+        <div class="quiz-blurb">
+          <p>Do you know Games? How about Videos? Take this quiz to test your Videos Games knowledges!</p>
+          <button class="start-btn" onclick="startQuiz('VideoGames')">Start Quiz</button>
+        </div>
+
+        <div class="quiz-title">
+          <h2>Quiz 3 - Reverse Quiz</h2>
+        </div>
+        <div class="quiz-blurb">
+          <p>The correct answers to this quiz are the wrong ones! Choose the lies and claim your prize!</p>
+          <button class="start-btn" onclick="startQuiz('Reverse')">Start Quiz</button>
+        </div>
+
+      </div>
+
+      <div class="image-column">
+        <div class="image-slot">
+          <img src="Images/Animalicon.png" alt="Amimals Quiz Icon">
+        </div>
+        <div class="image-slot">
+          <img src="Images/VideoGamesIcon.png" alt="Video Games Quiz Icon">
+        </div>
+        <div class="image-slot">
+          <img src="Images/ReverseIcon.png" alt="Reverse Icon">
+        </div>
+      </div>
+
+      <div class="sidebar">
+        <p>Fun Quiz Site</p>
+      </div>
+
     </div>
+  </div>
+
+  <div id="quiz-page">
+    <button id="back-btn" onclick="goHome()">Back to Home</button>
+    <h2 id="quiz-title"></h2>
+    <p id="question-num"></p>
+    <p id="question-text"></p>
+    <div id="answers"></div>
+    <p id="feedback"></p>
+    <button id="next-btn" onclick="nextQuestion()">Next Question</button>
+  </div>
+
+
+  <!-- JAVASCRIPT -->
+  <script>
+    const quizzes = {
+      Animals: {
+        title: "Quiz 1 - Animals",
+        questions: [
+          { q: "Which animal has the highest blood pressure?", 
+          answers: ["Hippopotamus", "Giraffe", "Wolf", "Blue Whale"], correct: 1},
+          { q: "What is a female fox called?", 
+          answers: ["Powder", "Trixen", "Heffer", "Vixen"], correct: 3},
+          { q: "How many legs do lobsters have?", 
+          answers: ["12", "10", "8", "104"], correct: 1},
+          { q: "Which baby animal has the thickest fur?", 
+          answers: ["Sea Otter", "Wolf", "Naked Mole Rat", "Russia"], correct: 0},
+          { q: "What is a group of 12 or more cows called?", 
+          answers: ["A pack", "A murder", "A flink", "A city"], correct: 2},
+        ]
+      },
+      VideoGames: {
+        title: "Quiz 2 - Video Games",
+        questions: [
+          { q: "Which video game was made by Larian Studios?", 
+          answers: ["Dragon Age: Origins", "Pathfinder: Wrath of the Righteous", "Divinity: Original Sin", "Baldur's Gate"], correct: 2},
+          { q: "How many games are in the Kingdom Hearts franchise?", 
+          answers: ["19", "13", "4", "6"], correct: 1},
+          { q: "Which game is NOT a part of the First Person Shooter genre?", 
+          answers: ["Valorant", "Call of Duty: Modern Warfare", "Rainbow Six Siege", "Gears of War"], correct: 3},
+          { q: "In which game are there collectible eggs?",
+          answers: ["Crash Bandicoot", "Dishonored", "Spyro: Year of the Dragon", "Hat in Time"], correct: 2},
+          { q: "What game won Game of the Year during the Game Awards in 2019?", 
+          answers: ["Control", "Sekiro: Shadows Die Twice", "Super Smash Bros. Ultimate", "The Last of Us Part 2"], correct: 1},
+        ]
+      },
+      Reverse: {
+        title: "Quiz 3 - Reverse Quiz",
+        questions: [
+          { q: "Which of these animals lay eggs?", 
+          answers: ["Duck-billed Platypus", "Spiny Anteater", "Garter Snake", "Swan"], correct: 2},
+          { q: "Which game earned over a billion USD during the year it was released?", 
+          answers: ["Grand Theft Auto 5", "Pokemon Go", "Candy Crush", "Tetris"], correct: 3},
+          { q: "Which show includes magic?", 
+          answers: ["Arcane", "Castlevania", "The Pillars of the Earth", "Game of Thrones"], correct: 2},
+          { q: "Which character is part of the Marvel Cinematic Universe?", 
+          answers: ["Thanos", "The Flash", "Scarlet Witch", "Star Lord"], correct: 1},
+          { q: "Which cuisine is made with meat?", 
+          answers: ["Rice Pilaf", "Jambalay", "Gumbo", "Moo Ping"], correct: 0},
+        ]
+      }
+    };
+
+    let currentQuiz = null;
+    let currentQ    = 0;
+    let score       = 0;
+
+    function startQuiz(key) {
+      currentQuiz = quizzes[key];
+      currentQ    = 0;
+      score       = 0;
+
+      document.getElementById('home-page').style.display  = 'none';
+      document.getElementById('quiz-page').style.display  = 'block';
+      document.getElementById('quiz-title').textContent   = currentQuiz.title;
+
+      showQuestion();
+    }
+
+    function goHome() {
+      document.getElementById('quiz-page').style.display  = 'none';
+      document.getElementById('home-page').style.display  = 'block';
+    }
+
+    function showQuestion() {
+      const total = currentQuiz.questions.length;
+      const q     = currentQuiz.questions[currentQ];
+
+      document.getElementById('question-num').textContent  = `Question ${currentQ + 1} of ${total}`;
+      document.getElementById('question-text').textContent = q.q;
+      document.getElementById('feedback').textContent      = '';
+      document.getElementById('next-btn').style.display    = 'none';
+
+      const answersDiv = document.getElementById('answers');
+      answersDiv.innerHTML = '';
+      q.answers.forEach((ans, i) => {
+        const btn = document.createElement('button');
+        btn.className   = 'answer-btn';
+        btn.textContent = ans;
+        btn.onclick     = () => checkAnswer(i, q.correct);
+        answersDiv.appendChild(btn);
+      });
+    }
+
+    function checkAnswer(chosen, correct) {
+      document.querySelectorAll('.answer-btn').forEach(b => b.disabled = true);
+
+      if (chosen === correct) {
+        score++;
+        document.querySelectorAll('.answer-btn')[chosen].classList.add('correct');
+        document.getElementById('feedback').textContent = 'Correct!';
+      } else {
+        document.querySelectorAll('.answer-btn')[chosen].classList.add('wrong');
+        document.querySelectorAll('.answer-btn')[correct].classList.add('correct');
+        document.getElementById('feedback').textContent = 'Wrong! The correct answer is highlighted in green.';
+      }
+
+      document.getElementById('next-btn').style.display = 'block';
+    }
+
+    function nextQuestion() {
+      currentQ++;
+      if (currentQ < currentQuiz.questions.length) {
+        showQuestion();
+      } else {
+        const total = currentQuiz.questions.length;
+        document.getElementById('question-num').textContent  = 'Quiz Complete!';
+        document.getElementById('question-text').textContent = `You scored ${score} out of ${total}.`;
+        document.getElementById('answers').innerHTML         = '';
+        document.getElementById('feedback').textContent      = '';
+        document.getElementById('next-btn').style.display   = 'none';
+      }
+    }
+
+  </script>
+
 </body>
 </html>
